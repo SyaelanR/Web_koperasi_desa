@@ -38,8 +38,18 @@
                                             @else
                                                 <select wire:model="rows.{{ $index }}.user_id" class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                                     <option value="">-- Pilih Anggota --</option>
-                                                    @foreach($this->availableUsersForDropdown as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                    @foreach($this->availableUsers as $user)
+                                                        @php
+                                                            $isSelectedElsewhere = collect($rows)
+                                                                ->filter(function ($item, $k) use ($index) {
+                                                                    return $k != $index && !empty($item['user_id']);
+                                                                })
+                                                                ->pluck('user_id')
+                                                                ->contains($user->id);
+                                                        @endphp
+                                                        @if(!$isSelectedElsewhere)
+                                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                                 @error('rows.'.$index.'.user_id') <span class="text-xs text-red-500 block mt-1">{{ $message }}</span> @enderror

@@ -14,6 +14,11 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: '#059669', // Emerald 600
+                primaryHover: '#047857', // Emerald 700
+                secondary: '#10b981', // Emerald 500
+            }
         },
     },
 

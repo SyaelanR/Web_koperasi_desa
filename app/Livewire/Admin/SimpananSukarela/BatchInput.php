@@ -23,13 +23,11 @@ class BatchInput extends Component
         $this->tanggal = now()->format('Y-m-d');
         $this->availableUsers = User::where('role', 'member')->where('status', 'active')->get();
 
-        foreach ($this->availableUsers as $user) {
-            $this->rows[] = [
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-                'nominal' => 0, // Default 0 for sukarela
-            ];
-        }
+        $this->rows[] = [
+            'user_id' => '',
+            'user_name' => '',
+            'nominal' => 0,
+        ];
     }
 
     public function addRow()

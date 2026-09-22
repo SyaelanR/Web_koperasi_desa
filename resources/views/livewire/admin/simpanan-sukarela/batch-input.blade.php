@@ -51,8 +51,18 @@
                                             @else
                                                 <select wire:model="rows.{{ $index }}.user_id" class="block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm">
                                                     <option value="">Pilih Anggota</option>
-                                                    @foreach($this->availableUsersForDropdown as $u)
-                                                        <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                    @foreach($this->availableUsers as $u)
+                                                        @php
+                                                            $isSelectedElsewhere = collect($rows)
+                                                                ->filter(function ($item, $k) use ($index) {
+                                                                    return $k != $index && !empty($item['user_id']);
+                                                                })
+                                                                ->pluck('user_id')
+                                                                ->contains($u->id);
+                                                        @endphp
+                                                        @if(!$isSelectedElsewhere)
+                                                            <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('rows.'.$index.'.user_id')" class="mt-1 text-xs" />
